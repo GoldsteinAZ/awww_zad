@@ -61,13 +61,36 @@ namespace awww_az.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,City,FoundingDate,LeagueId")] Team team)
         {
+            // Dodaj debugowanie
+            ModelState.Remove("League"); // Usuwamy League z walidacji, bo to relacja
+            ModelState.Remove("Players"); // Usuwamy Players z walidacji, bo to relacja
+
             if (ModelState.IsValid)
             {
-                _context.Add(team);
-                await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Team created successfully!";
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(team);
+                    await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Team created successfully!";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    // Dodaj obsługę błędów
+                    ModelState.AddModelError("", "Wystąpił błąd podczas zapisywania: " + ex.Message);
+                }
             }
+
+            // Jeśli dotarliśmy tutaj, coś poszło nie tak
+            // Dodaj debugging informacji o błędach walidacji
+            foreach (var state in ModelState)
+            {
+                if (state.Value.Errors.Count > 0)
+                {
+                    TempData["ErrorInfo"] = $"Field: {state.Key}, Errors: {string.Join(", ", state.Value.Errors.Select(e => e.ErrorMessage))}";
+                }
+            }
+
             ViewData["LeagueId"] = new SelectList(_context.Leagues, "Id", "Name", team.LeagueId);
             return View(team);
         }
@@ -105,6 +128,10 @@ namespace awww_az.Controllers
                 return NotFound();
             }
 
+            // Dodaj debugowanie
+            ModelState.Remove("League"); // Usuwamy League z walidacji, bo to relacja
+            ModelState.Remove("Players"); // Usuwamy Players z walidacji, bo to relacja
+
             if (ModelState.IsValid)
             {
                 try
@@ -112,6 +139,7 @@ namespace awww_az.Controllers
                     _context.Update(team);
                     await _context.SaveChangesAsync();
                     TempData["SuccessMessage"] = "Team updated successfully!";
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -121,18 +149,33 @@ namespace awww_az.Controllers
                     }
                     else
                     {
-                        throw;
+                        // Dodaj obsługę błędów
+                        ModelState.AddModelError("", "Wystąpił błąd podczas aktualizacji. Dane mogły zostać zmienione przez innego użytkownika.");
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                catch (Exception ex)
+                {
+                    // Dodaj obsługę błędów
+                    ModelState.AddModelError("", "Wystąpił błąd podczas zapisywania: " + ex.Message);
+                }
             }
-            
+
+            // Jeśli dotarliśmy tutaj, coś poszło nie tak
+            // Dodaj debugging informacji o błędach walidacji
+            foreach (var state in ModelState)
+            {
+                if (state.Value.Errors.Count > 0)
+                {
+                    TempData["ErrorInfo"] = $"Field: {state.Key}, Errors: {string.Join(", ", state.Value.Errors.Select(e => e.ErrorMessage))}";
+                }
+            }
+
             ViewData["LeagueId"] = new SelectList(_context.Leagues, "Id", "Name", team.LeagueId);
-            
+
             // Add audit information
-            ViewData["CurrentDate"] = "2025-04-02 07:30:28";
+            ViewData["CurrentDate"] = "2025-04-03 18:43:47";
             ViewData["CurrentUser"] = "GoldsteinAZ";
-            
+
             return View(team);
         }
 
