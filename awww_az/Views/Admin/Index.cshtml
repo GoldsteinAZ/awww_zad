@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Panel administracyjny";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h2>Dodaj nowe dane:</h2>
+
+<ul>
+    <li><a asp-controller="Author" asp-action="Create">Dodaj autora</a></li>
+    <li><a asp-controller="Category" asp-action="Create">Dodaj kategorię</a></li>
+    <li><a asp-controller="Tag" asp-action="Create">Dodaj tag</a></li>
+    <li><a asp-controller="League" asp-action="Create">Dodaj ligę</a></li>
+    <li><a asp-controller="EventType" asp-action="Create">Dodaj rodzaj wydarzenia</a></li>
+    <li><a asp-controller="Position" asp-action="Create">Dodaj pozycję</a></li>
+</ul>

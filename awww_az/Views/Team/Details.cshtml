@@ -1,0 +1,85 @@
+﻿@model awww_az.Models.Team
+
+@{
+    ViewData["Title"] = "Team Details";
+}
+
+<div class="container">
+    <div class="row mb-3">
+        <div class="col">
+            <h1>Team Details</h1>
+        </div>
+        <div class="col-auto">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+            <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Team Information</h4>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Name)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Name)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.City)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.City)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.FoundingDate)</dt>
+                        <dd class="col-sm-8">@Model.FoundingDate.ToShortDateString()</dd>
+
+                        <dt class="col-sm-4">League</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.League.Name)</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Players</h4>
+                </div>
+                <div class="card-body">
+                    @if (Model.Players != null && Model.Players.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Position</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var player in Model.Players)
+                                    {
+                                        <tr>
+                                            <td>@player.FirstName @player.LastName</td>
+                                            <td>@player.Position.Name</td>
+                                            <td>
+                                                <a asp-controller="Player" asp-action="Details" asp-route-id="@player.Id" class="btn btn-outline-info btn-sm">Details</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <p>This team has no players.</p>
+                    }
+                    <div class="mt-3">
+                        <a asp-controller="Player" asp-action="Create" class="btn btn-primary btn-sm">Add Player</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

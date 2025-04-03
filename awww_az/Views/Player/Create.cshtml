@@ -1,0 +1,86 @@
+﻿@model awww_az.Models.Player
+
+@{
+    ViewData["Title"] = "Edit Player";
+}
+
+<div class="container">
+    <div class="row mb-3">
+        <div class="col">
+            <h1>Edit Player</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Player Information</h4>
+                </div>
+                <div class="card-body">
+                    <div class="text-muted mb-3">
+                        <small>Last updated: @ViewData["CurrentDate"] by @ViewData["CurrentUser"]</small>
+                    </div>
+
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="FirstName" class="form-label"></label>
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="LastName" class="form-label"></label>
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Country" class="form-label"></label>
+                            <input asp-for="Country" class="form-control" />
+                            <span asp-validation-for="Country" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="BirthDate" class="form-label"></label>
+                            <input asp-for="BirthDate" class="form-control" type="date" />
+                            <span asp-validation-for="BirthDate" class="text-danger"></span>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="TeamId" class="form-label">Team</label>
+                                <select asp-for="TeamId" class="form-select" asp-items="ViewBag.TeamId">
+                                    <option value="">-- Select Team --</option>
+                                </select>
+                                <span asp-validation-for="TeamId" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="PositionId" class="form-label">Position</label>
+                                <select asp-for="PositionId" class="form-select" asp-items="ViewBag.PositionId">
+                                    <option value="">-- Select Position --</option>
+                                </select>
+                                <span asp-validation-for="PositionId" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,65 @@
+﻿@model awww_az.Models.Team
+
+@{
+    ViewData["Title"] = "Create Team";
+}
+
+<div class="container">
+    <div class="row mb-3">
+        <div class="col">
+            <h1>Create Team</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Team Information</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="City" class="form-label"></label>
+                            <input asp-for="City" class="form-control" />
+                            <span asp-validation-for="City" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="FoundingDate" class="form-label"></label>
+                            <input asp-for="FoundingDate" class="form-control" type="date" />
+                            <span asp-validation-for="FoundingDate" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="LeagueId" class="form-label">League</label>
+                            <select asp-for="LeagueId" class="form-select" asp-items="ViewBag.LeagueId">
+                                <option value="">-- Select League --</option>
+                            </select>
+                            <span asp-validation-for="LeagueId" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary">Create</button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

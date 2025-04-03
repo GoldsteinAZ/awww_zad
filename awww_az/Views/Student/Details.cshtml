@@ -1,0 +1,30 @@
+﻿@model awww_az.Models.Student
+
+@{
+    ViewData["Title"] = "Szczegóły studenta";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-3">Imię: </dt>
+        <dd class="col-sm-9">@Model.FirstName</dd>
+
+        <dt class="col-sm-3">Nazwisko: </dt>
+        <dd class="col-sm-9">@Model.LastName</dd>
+
+        <dt class="col-sm-3">Numer indeksu: </dt>
+        <dd class="col-sm-9">@Model.IndexNumber</dd>
+
+        <dt class="col-sm-3">Data urodzenia: </dt>
+        <dd class="col-sm-9">@Model.DateOfBirth.ToShortDateString()</dd>
+
+        <dt class="col-sm-3">Kierunek studiów: </dt>
+        <dd class="col-sm-9">@Model.FieldOfStudy</dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Index">Powrót do listy</a>
+</div>
